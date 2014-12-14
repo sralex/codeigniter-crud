@@ -119,7 +119,30 @@ class Codegen extends CI_Controller {
                         $req="required";
                     }
                     // this will create a form for Add and Edit , quite dirty for now
-                    if($type[$k][0] == 'textarea'){
+                    if($type[$k][0] == 'user'){
+                        /*
+                         $add_form[] = '
+                                    <div class="clearfix"></div>
+                                    <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
+                                    <div class="col-sm-10">                                
+                                    <textarea '.$req.' class="form-control" id="'.$k.'" name="'.$k.'"><?php echo set_value(\''.$k.'\'); ?></textarea>
+                                    <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
+                                    </div>
+                                    </div>
+                                    ';
+                                    
+                         $edit_form[] = '
+                                    <div class="clearfix"></div>
+                                    <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
+                                    <div class="col-sm-10">                                
+                                    <textarea '.$req.' class="form-control" id="'.$k.'" name="'.$k.'"><?php echo $result->'.$k.' ?></textarea>
+                                    <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
+                                    </div>
+                                    </div>
+                                    ';*/
+                    }else if($type[$k][0] == 'textarea'){
                          $add_form[] = '
                                     <div class="clearfix"></div>
                                     <div class="form-group">
@@ -308,6 +331,7 @@ class Codegen extends CI_Controller {
                 // looping of rules 
                 foreach($rules as $k => $v){
                     $rules_array = array();
+                    if($type[$k][0] != 'user'){
                     if($type[$k][0] != 'exclude'){
                         
                         foreach($rules[$k] as $k1 => $v1){
@@ -324,6 +348,11 @@ class Codegen extends CI_Controller {
                         $controller_form_data[] = "'".$k."' => set_value('".$k."')";
                         $controller_form_editdata[] = "'".$k."' => \$this->input->post('".$k."')";
                         $fields_list[] = $k;   
+                    }
+                    }else{
+                        $controller_form_data[] = "'".$k."' => \$this->ion_auth->user()->row()->id";
+                        $controller_form_editdata[] = "'".$k."' => \$this->ion_auth->user()->row()->id";
+                        $fields_list[] = $k; 
                     }
                 }
                 

@@ -21,6 +21,10 @@ $lang['account_creation_unsuccessful'] 	 	 = 'Account aanmaken is mislukt';
 $lang['account_creation_duplicate_email'] 	 = 'E-mail is al in gebruik of ongeldig';
 $lang['account_creation_duplicate_username'] 	 = 'Gebruikersnaam is al in gebruik of ongeldig';
 
+// TODO Please Translate
+$lang['account_creation_missing_default_group'] = 'Standaard groep is niet ingesteld';
+$lang['account_creation_invalid_default_group'] = 'Standaard groepsnaam is ongeldig';
+
 
 // Password
 $lang['password_change_successful'] 	 	 = 'Wachtwoord succesvol gewijzigd';

@@ -72,12 +72,14 @@ if(isset($alias)){
                 'file' => 'file',
                 'select' => 'select',
                 'email'=>'Email',
-                'number' => 'Number'
+                'number' => 'Number',
+                'user' => 'User'
                 );
    $sel = '';
     if(isset($alias)){
         foreach($alias as $a){
             $email_default = FALSE;
+            $user_default = FALSE;
             echo '<div class="list-group">';
             echo '<div class="list-group-item">';
             echo '<div class="row clearfix">';
@@ -90,13 +92,17 @@ if(isset($alias)){
             echo 'Label:'.form_input('field['.$a->Field.']', ucfirst($a->Field),'class="form-control"');
             echo '</div>';
             if(strpos($a->Key,'MUL') !== false){
+                if(strpos($a->Field,'users_id') !== false){
+                 $sel = 'user';
+                }else{
                 echo '<div class="col-md-3">';
                 echo 'Link:'.form_dropdown($a->Field.'table',$db_tables,'default', 'class="tables form-control"'); 
                 echo '</div>';
                 echo '<div class="col-md-3">';
                 echo 'Display value:<select class="form-control" id="value" name="'.$a->Field.'value" id=""></select>';
-                 echo '</div>';
+                echo '</div>';
                 $sel = 'select';
+                }
             }else if($a->Key == 'PRI'){
                 $sel = 'exclude';
                 echo form_hidden('primaryKey',$a->Field);
@@ -125,7 +131,7 @@ if(isset($alias)){
             }elseif(strpos($a->Type,'int') !== false){
                 $sel = 'number';
             }else{
-                 $sel = 'text';
+                $sel = 'text';
             }
             echo '<div class="col-md-3">';
             echo 'Type:'.form_dropdown('type['.$a->Field.'][]', $type,$sel,'class="form-control"');

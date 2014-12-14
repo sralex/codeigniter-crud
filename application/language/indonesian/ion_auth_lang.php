@@ -6,9 +6,14 @@
 * 		  toha.samba@gmail.com
 *         @yllumi
 * 
+* Author: Daeng Muhammad Feisal
+*         daengdoang@gmail.com
+*         @daengdoang
+* 
 * Location: https://github.com/yllumi/CodeIgniter-Ion-Auth
 *          
 * Created:  11.15.2011
+* Edited:   June 21st 2014 :D
 * 
 * Description:  Indonesian language file for Ion Auth messages and errors
 * 
@@ -19,6 +24,10 @@ $lang['account_creation_successful'] 	  	 = 'Akun Berhasil Dibuat';
 $lang['account_creation_unsuccessful'] 	 	 = 'Tidak Dapat Membuat Akun';
 $lang['account_creation_duplicate_email'] 	 = 'Email Sudah Digunakan atau Tidak Valid';
 $lang['account_creation_duplicate_username'] 	 = 'Username Sudah Digunakan atau Tidak Valid';
+
+// TODO Please Translate
+$lang['account_creation_missing_default_group'] = 'Default group is not set';
+$lang['account_creation_invalid_default_group'] = 'Invalid default group name set';
 
 
 // Password
@@ -46,7 +55,7 @@ $lang['update_unsuccessful'] 		 	 = 'Tidak Dapat Memperbaharui Informasi Akun';
 $lang['delete_successful'] 		 	 = 'Pengguna Telah Dihapus';
 $lang['delete_unsuccessful'] 		 	 = 'Tidak Dapat Menghapus Pengguna';
 
-// Email Subjects - TODO Please Translate
-$lang['email_forgotten_password_subject']    = 'Forgotten Password Verification';
+// Email Subjects
+$lang['email_forgotten_password_subject']    = 'Lupa Verifikasi Password';
 $lang['email_new_password_subject']          = 'New Password';
-$lang['email_activation_subject']            = 'Account Activation';
+$lang['email_activation_subject']            = 'Aktivasi Akun';
