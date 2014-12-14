@@ -69,9 +69,6 @@
   <div class="row clearfix">
     <div class="col-md-2 column" style="padding:0; margin:0;">
     <ul class="nav nav-tabs nav-stacked">
-        <li>
-          <a href="<?=base_url()?>/events">Eventos</a>
-        </li>
         <?$res = $this->controllerlist->getControllers();?>
             <?if($res != null):?>
             <?foreach($res as $row => $value):?>
