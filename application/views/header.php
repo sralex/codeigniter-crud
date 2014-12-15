@@ -11,6 +11,8 @@
         <script src="<?=base_url();?>/assets/js/bootstrap-datetimepicker.min.js"></script>
         <link href="<?=base_url();?>/assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
         <script src="<?=base_url()?>assets/js/Chart.js"></script>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <style>
     body{padding-top:70px;}
 </style>

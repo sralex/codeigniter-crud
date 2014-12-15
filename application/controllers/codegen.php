@@ -104,7 +104,7 @@ class Codegen extends CI_Controller {
                 $rules = $this->input->post('rules');
                 $label = $this->input->post('field');
                 $type = $this->input->post('type');
-                
+                $preconsult[]="";
                 
                 // looping of labels and forms , for edit and add
                 foreach($label as $k => $v){
@@ -239,9 +239,7 @@ class Codegen extends CI_Controller {
                                 break;
                             }
                         }
-                         $add_form[] = '
-                                    <div class="clearfix"></div>
-                                    <?php
+                        $preconsult[] = '
                                     $table=\''.$table.'\';
                                     $key=\''.$key.'\';
                                     $value=\''.$value.'\';
@@ -249,10 +247,14 @@ class Codegen extends CI_Controller {
                                     foreach($this->codegen_model->get($table,$key.",".$value,"","","") as $row){
                                         $list[$row[$key]]=$row[$value];
                                     }
-                                    $enum = $list;
-                                    if(!empty($enum)){
+                                    $this->data[\''.$k.'\'] = $list;';
+                         $add_form[] = '
+                                    <div class="clearfix"></div>
+                                    <?
+                                    $table=\''.$table.'\'; 
+                                    if(!empty($'.$k.')){
                                     $class="";
-                                    $input = form_dropdown(\''.$k.'\', array("" => "")+$enum,"default",\'class="form-control" '.$req.'\'); 
+                                    $input = form_dropdown(\''.$k.'\', array("" => "")+$'.$k.',"default",\'class="form-control" '.$req.'\'); 
                                     }else{
                                     $class = "has-error";
                                     $input = form_dropdown("error", array("0"=>"La tabla ".$table." debe tener almenos un registro"),"default", \'disabled="disabled" class="form-control"\');
@@ -264,7 +266,7 @@ class Codegen extends CI_Controller {
                                       <div class="input-group">
                                       <?=$input;?>
                                       <span class="input-group-btn">
-                                        <a class="btn btn-primary" href="<?=base_url().$table?>/add" target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="btn btn-primary" href="<?=base_url().$table?>/manage" target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
                                       </span>
                                     </div><!-- /input-group -->
                                     
@@ -275,23 +277,23 @@ class Codegen extends CI_Controller {
                         $edit_form[] = '
                                     <div class="clearfix"></div>
                                     <?php
-                                    $table=\''.$table.'\';
-                                    $key=\''.$key.'\';
-                                    $value=\''.$value.'\';
-                                    $list = array(""=>"");
-                                    foreach($this->codegen_model->get($table,$key.",".$value,"","","") as $row){
-                                        $list[$row[$key]]=$row[$value];
+                                    $table=\''.$table.'\';  
+                                    if(!empty($'.$k.')){ 
+                                    $class="";                                                 
+                                    $input = form_dropdown(\''.$k.'\',array("" => "")+ $'.$k.',$result->'.$k.',\'class="form-control" '.$req.'\');
+                                    }else{
+                                    $class = "has-error";
+                                    $input = form_dropdown("error", array("0"=>"La tabla ".$table." debe tener almenos un registro"),"default", \'disabled="disabled" class="form-control"\');
                                     }
-                                    $enum = $list;                                                               
-                                    $input = form_dropdown(\''.$k.'\', $enum,$result->'.$k.',\'class="form-control" '.$req.'\'); ?>
+                                    ?>
                                     <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
-                                    <div class="form-group ">
+                                    <div class="form-group <?=$class?>">
                                     <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
                                     <div class="col-sm-10">
                                       <div class="input-group">
                                       <?=$input;?>
                                       <span class="input-group-btn">
-                                        <a class="btn btn-primary" href="<?=base_url().$table?>/add" target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="btn btn-primary" href="<?=base_url().$table?>/manage" target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
                                       </span>
                                     </div><!-- /input-group -->
                                     
@@ -391,9 +393,10 @@ class Codegen extends CI_Controller {
                 
                 ///////////////// controller
                 $controller = file_get_contents('templates/controller.php');
-                $search = array('{controller_name}', '{view}', '{table}','{validation_name}',
+                $search = array('{pre}','{controller_name}', '{view}', '{table}','{validation_name}',
                 '{data}','{edit_data}','{controller_name_l}','{primaryKey}','{fields_list}');
                 $replace = array(
+                            implode(' ',$preconsult),
                             ucfirst($this->input->post('controller')), 
                             $this->input->post('view'),
                             $this->input->post('table'),

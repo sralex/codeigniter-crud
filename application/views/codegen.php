@@ -12,7 +12,7 @@
                     //console.log(json);
                     $(node).parent().parent().find('#value').find('option').remove();
                     $.each(json, function(i, value) {
-                        $(node).parent().parent().find('#value').append($('<option>').text(value).attr('value', value));
+                        $(node).parent().parent().find('#value').append($('<option>').text(value.Field).attr('value', value.Field));
                     });
                 }
             });

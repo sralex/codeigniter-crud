@@ -24,7 +24,7 @@ class Codegen_model extends CI_Model {
     }
     function query($query){
         $consulta = $this->db->query($query);
-        return $consulta->result();
+        return json_decode(json_encode($consulta->result()),true);
     }
     function query2($query){
         $consulta = $this->db->query($query);
