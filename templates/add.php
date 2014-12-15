@@ -6,6 +6,7 @@ echo form_open(current_url(),array('class'=>'form-horizontal')); ?>
 {forms_inputs}
 <div class="col-md-12 ">
 <div class="pull-right">
+	<input type="button" action="action" class="btn btn-default" onclick="history.go(-1);" value="Cancelar">
 	<input type="submit" class="btn btn-primary" value="Guardar">
 </div>
 </div>

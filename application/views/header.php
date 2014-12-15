@@ -13,12 +13,7 @@
         <script src="<?=base_url()?>assets/js/Chart.js"></script>
 <style>
     body{padding-top:70px;}
-    </style>
-<script>
-  $(document).on('ready',function(){
-  $('.pull-right').prepend('<input type="button" action="action" class="btn btn-default" onclick="history.go(-1);" value="Cancelar">');
-  });
-</script>
+</style>
 </head>
 <body>
 <div class="container-fluid">
