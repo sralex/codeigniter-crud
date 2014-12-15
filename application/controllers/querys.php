@@ -27,6 +27,9 @@ class Querys extends CI_Controller {
                 $data['alias'] = $result->result();
                 $this->load->view('querys',$data);
     }
+    function limpiar(){
+        echo preg_replace( '/\s+/', ' ',trim($this->input->post('consulta')) );
+    }
 }
 
 /* End of file codegen.php */

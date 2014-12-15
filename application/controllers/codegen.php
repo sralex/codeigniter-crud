@@ -39,7 +39,7 @@ class Codegen extends CI_Controller {
                 $table = $this->db->list_tables();
                 $result = $this->db->query("SHOW FIELDS from ".$table_name);
                 foreach($result->result() as $row) { $list[]=$row->Field;}
-                echo json_encode($list);
+                echo json_encode($result->result());
     }
     function index(){
         $data = '';

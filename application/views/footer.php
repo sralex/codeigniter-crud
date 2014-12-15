@@ -10,6 +10,7 @@
       	language: 'es',
       	pick12HourFormat: true
     	});
-        </script>
+    	
+</script>
 </body>
 </html>
