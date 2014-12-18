@@ -21,6 +21,12 @@
           $('.foto').html('<img src="'+url+'" width="100px">');
     });
     $('#myModal').appendTo("body");
+    
+    $("#fecha").datetimepicker({
+        language: "es",
+        pick12HourFormat: true
+    });
+                                    
 </script>
 </body>
 </html>

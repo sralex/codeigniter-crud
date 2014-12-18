@@ -2,6 +2,12 @@
 <?php
 echo anchor('#','<span class="glyphicon glyphicon-plus"></span> Agregar',array('class'=>'btn btn-primary toAdd',"data-toggle"=>"modal","data-target"=>"#myModal4"));
 echo '<h1> {controller_name_l}</h1>';
+$cadena = explode(" ", $consulta);
+$elementos = explode(",", $cadena[1]);
+$this->load->view('filtro',array('elementos'=>$elementos));
+if($where!=" "){
+  echo "<h3>".$where."</h3>";
+}
 if(!$results){
   echo '<h3>No hay datos :C</h3>';
 }else{
@@ -27,8 +33,9 @@ $this->table->set_heading($clean_header);
 $tmpl = array ( 'table_open'  => '<table class="table">' );
 $this->table->set_template($tmpl);
 echo $this->table->generate($results); 
-?>
-<?=$this->pagination->create_links();
+if($where==" "){
+  echo $this->pagination->create_links();
+}
 }?>
 
 <!-- Modal -->
@@ -118,6 +125,9 @@ $(document).ready(function(){
         url:"<?=base_url()?>index.php/{controller_name_l}/add/",success:function(result){
           $("#result-4").html(result);
         }});
+    });
+    $("#filtrar").click(function(){
+    window.location = "<?=base_url()?>index.php/{controller_name_l}/manage/0/"+$( "#where option:selected" ).val()+"/"+$( "#operator option:selected" ).val()+"/"+$("#fecha").val();
     });
    
 });

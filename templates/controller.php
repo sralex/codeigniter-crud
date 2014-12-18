@@ -28,10 +28,21 @@ class {controller_name} extends CI_Controller {
         }else{
             $var = $this->uri->segment(3);
         }
+        $where= " ";
+        if(($this->uri->segment(4)!="")and($this->uri->segment(5)!="")and($this->uri->segment(6))){
+            $operator = Array(0,'=','<','>','<=','>=','like','!=');
+            $operator = $operator[$this->uri->segment(5)];
+            $where .= "where ".$this->uri->segment(4);
+            $where .= " ".$operator;
+            $where .= " '".$this->uri->segment(6)."'";
+            $limit = "";
+            $config['per_page'] = 100;
+        }
+        $this->data['where'] = $where;
         $limit = ' LIMIT '.$var.','.$config['per_page'];
 
-        $consulta= 'SELECT  {fields_list} FROM {table} '.$limit;
-        $this->data['results'] = $this->codegen_model->query($consulta);
+        $this->data['consulta']= 'SELECT {fields_list} FROM {table} '.$where.$limit;
+        $this->data['results'] = $this->codegen_model->query($this->data['consulta']);
         $this->load->view('{view}_list', $this->data); 
 		
     }
