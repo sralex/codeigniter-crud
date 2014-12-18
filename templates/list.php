@@ -51,7 +51,7 @@ if($where==" "){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <a class="btn btn-primary borrar" href="#" >Si</a>
+        <a class="btn btn-primary borrar" href="#" data-dismiss="modal" >Si</a>
       </div>
     </div>
   </div>
