@@ -21,7 +21,9 @@ for($i=0;$i<count($results);$i++){
             .anchor('#','<span class="glyphicon glyphicon-pencil"></span>',array('id'=>$id[0],'class'=>'btn btn-warning toEdit',"data-toggle"=>"modal","data-target"=>"#myModal2"))
             .anchor('#','<span class="glyphicon glyphicon-trash"></span>',array("id"=>$id[0],"class"=>"btn btn-danger toDelete","data-toggle"=>"modal","data-target"=>"#myModal")).'</div>';
             //$results[$i]['Delete']   =                                           
-
+            if($results[$i]['foto']!=null){
+            $results[$i]['foto'] = '<a target="blank_" href="'.$results[$i]['foto'].'"><img width="140px" src="'.$results[$i]['foto'].'"></a>';
+            }
             array_shift($results[$i]);                        
         }
 
