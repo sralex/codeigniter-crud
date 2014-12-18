@@ -171,14 +171,20 @@ class Codegen extends CI_Controller {
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
                                         <div class="col-sm-10">
-                                            <div class="input-group date" id="datetimepicker1" data-date-format="YYYY-MM-DD hh:mm:ss">
-                                                <input '.$req.' class ="form-control" id="'.$k.'" type="text" name="'.$k.'" value="<?php echo set_value(\''.$k.'\'); ?>"  />
+                                            <div class="input-group date" id="'.$k.'" data-date-format="YYYY-MM-DD hh:mm:ss">
+                                                <input '.$req.' class ="form-control" id="" type="text" name="'.$k.'" value="<?php echo set_value(\''.$k.'\'); ?>"  />
                                                 <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
+                                    <script>
+                                        $("#'.$k.'").datetimepicker({
+                                            language: "es",
+                                            pick12HourFormat: true
+                                        });
+                                    </script>
                                     ';
                                     
                          $edit_form[] = '
@@ -187,15 +193,49 @@ class Codegen extends CI_Controller {
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
                                         <div class="col-sm-10">
-                                            <div class="input-group date" id="datetimepicker1" data-date-format="YYYY-MM-DD hh:mm:ss">
-                                                <input '.$req.' class ="form-control" id="'.$k.'" type="text" name="'.$k.'" value="<?php echo $result->'.$k.' ?>"  />
+                                            <div class="input-group date" id="'.$k.'" data-date-format="YYYY-MM-DD hh:mm:ss">
+                                                <input '.$req.' class ="form-control" id="" type="text" name="'.$k.'" value="<?php echo $result->'.$k.' ?>"  />
                                                 <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
+                                    <script>
+                                        $("#'.$k.'").datetimepicker({
+                                            language: "es",
+                                            pick12HourFormat: true
+                                        });
+                                    </script>
                                     ';                                    
+                                    
+                    }else if($type[$k][0] == 'picture'){
+                         $add_form[] = '
+                                    <div class="clearfix"></div>
+                                    <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
+                                    <div class="col-sm-10">  
+                                    <input '.$req.' class ="form-control" id="'.$k.'"  type="hidden" name="'.$k.'" value="<?php echo set_value(\''.$k.'\'); ?>"  />
+                                    <div class="'.$k.'"></div>
+                                    <a href="#" class="btn btn-default" data-target="#galeria" id="gal" data-toggle="modal">Foto</a>
+                                    <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
+                                    </div>
+                                    </div>
+                                    ';
+                        $edit_form[] = '
+                                    <div class="clearfix"></div>
+                                    <div class="form-group">
+                                    <label class="col-sm-2 control-label"  for="'.$k.'">'.$v.$required.'</label>
+                                    <div class="col-sm-10">
+                                    <div class="'.$k.'">
+                                    <img height="100px" src="<?=$result->'.$k.'?>" />
+                                    </div>                         
+                                    <input '.$req.' class ="form-control" id="'.$k.'" type="hidden" name="'.$k.'" value="<?php echo $result->'.$k.' ?>"  />
+                                    <a href="#" class="btn btn-default" data-target="#galeria" id="gal" data-toggle="modal">Foto</a>
+                                    <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
+                                    </div>
+                                    </div>
+                                    ';                           
                                     
                     }else if($this->input->post($k.'default')){
                         $enum = explode(',',$this->input->post($k.'default'));
@@ -206,7 +246,22 @@ class Codegen extends CI_Controller {
                                     <div class="col-sm-10">                                
                                     <?php
                                     $enum = array('.$this->input->post($k.'default').'); 
-                                    echo form_dropdown(\''.$k.'\', $enum,"default",\'class="form-control" '.$req.'\'); 
+                                    if(sizeof($enum)>4){
+                                        echo form_dropdown(\''.$k.'\', $enum,"default",\'class="form-control" '.$req.'\'); 
+                                    }else{
+                                        $x=0;
+                                    ?>
+                                    <div class="btn-group" data-toggle="buttons">
+                                      <?foreach($enum as $key => $v):?>
+                                      <label class="btn btn-primary ">
+                                        <input type="radio" name="'.$k.'" id="option<?=$x?>" autocomplete="off" value="<?=$v?>"  required> <?=$key?>
+                                      </label>
+                                      <?
+                                        $x++;
+                                      endforeach;?>
+                                    </div>
+                                    <?                                        
+                                    }                                                     
                                     ?>
                                     <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
                                     </div>
@@ -218,8 +273,25 @@ class Codegen extends CI_Controller {
                                     <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
                                     <div class="col-sm-10">
                                     <?php
-                                    $enum = array('.$this->input->post($k.'default').');                                                                    
-                                    echo form_dropdown(\''.$k.'\', $enum,$result->'.$k.',\'class="form-control" '.$req.'\'); ?>
+                                    $enum = array('.$this->input->post($k.'default').');
+                                    if(sizeof($enum)>4){
+                                        echo form_dropdown(\''.$k.'\', $enum,$result->'.$k.',\'class="form-control" '.$req.'\'); 
+                                    }else{
+                                        $x=0;
+                                    ?>
+                                    <div class="btn-group" data-toggle="buttons">
+                                      <?foreach($enum as $key => $v):?>
+                                      <?if($result->'.$k.'==$key){$active = "active"; $checked = "checked";}else{$active=""; $checked = "";}?>
+                                      <label class="btn btn-primary <?=$active?>">
+                                        <input type="radio" name="'.$k.'" id="option<?=$x?>" autocomplete="off" value="<?=$v?>" <?=$checked?> required> <?=$key?>
+                                      </label>
+                                      <?
+                                        $x++;
+                                      endforeach;?>
+                                    </div>
+                                    <?                                        
+                                    }                                                     
+                                    ?>
                                     <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
                                     </div>
                                     </div>
@@ -347,6 +419,11 @@ class Codegen extends CI_Controller {
                                 \t'label'=>'".$label[$k]."',
                                 \t'rules'=>'".$form_rules."'
                                 )";
+                        $new_form_val_data[] = Array(
+                                'field'=>$k,
+                                'label'=>$label[$k],
+                                'rules'=>$form_rules
+                                );
                         $controller_form_data[] = "'".$k."' => set_value('".$k."')";
                         $controller_form_editdata[] = "'".$k."' => \$this->input->post('".$k."')";
                         $fields_list[] = $k;   
@@ -357,7 +434,7 @@ class Codegen extends CI_Controller {
                         $fields_list[] = $k; 
                     }
                 }
-                
+
                 
                 $fields = implode(',',$fields_list);
                 
@@ -368,7 +445,7 @@ class Codegen extends CI_Controller {
                 //$search_form = array('{validation_name}','{form_val_data}');
                // $replace_form = array($this->input->post('validation'),$form_data);
                 $form_validation_data = "'".$this->input->post('table')."' => array(".$form_data.")";
-                
+                /*
                 if(file_exists('application/config/form_validation.php')){
                     $form_v = file_get_contents('application/config/form_validation.php');
                      $old_form =  str_replace(array('<?php','?>','$config = array(',');'),'',$form_v)."\t\t\t\t,\n\n\t\t\t\t";
@@ -385,7 +462,15 @@ class Codegen extends CI_Controller {
                 }else{  
                     $form_content = str_replace('{form_validation_data}',$form_validation_data,file_get_contents('templates/form_validation.php'));
                 
+                }*/
+                /////////////// add a new way to edit the form rules
+                if(file_exists('application/config/form_validation.json')){
+                    $form_d = file_get_contents('application/config/form_validation.json');
+                    $config = json_decode($form_d,true);
                 }
+                $config["config"][$this->input->post('table')] =$new_form_val_data ;
+                $this->writefile('application/config/form_validation.json',json_encode($config,JSON_PRETTY_PRINT));
+
                ////////////////////
                 $c_path = 'application/controllers/';
                 $m_path = 'application/models/'; 
@@ -440,8 +525,7 @@ class Codegen extends CI_Controller {
                                 'Controller' => array($file_controller, $c_content),
                                 'view_edit'  => array($v_path.$this->input->post('view').'_edit.php', $edit_content),
                                 'view_list'  => array($v_path.$this->input->post('view').'_list.php', $list_content),
-                                'view_add'  => array($v_path.$this->input->post('view').'_add.php', $add_content),
-                               'form_validation'  => array($file_validation, $form_content) 
+                                'view_add'  => array($v_path.$this->input->post('view').'_add.php', $add_content)
                                 );
                 foreach($write_files as $wf){
                     if($this->writefile($wf[0],$wf[1])){

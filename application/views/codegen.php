@@ -73,7 +73,8 @@ if(isset($alias)){
                 'select' => 'select',
                 'email'=>'Email',
                 'number' => 'Number',
-                'user' => 'User'
+                'user' => 'User',
+                'picture' => 'Pic'
                 );
    $sel = '';
     if(isset($alias)){

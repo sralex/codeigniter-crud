@@ -58,7 +58,7 @@ class ControllerList {
 	 */
 	private function setControllers() {
 		$not_availables = array('get_instance','__construct','delete','edit','index');
-		$not_controllers = array('codegen','auth','config','querys','Cuestionario','home','profile','events');
+		$not_controllers = array('codegen','auth','config','querys','images');
 		// Loop through the controller directory
 		foreach(glob(APPPATH . 'controllers/*') as $controller) {
 			// if the value in the loop is a directory loop through that directory

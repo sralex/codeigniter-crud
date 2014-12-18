@@ -6,7 +6,7 @@ if(!$results){
   echo '<h3>No hay datos :C</h3>';
 }else{
   $header = array_keys($results[0]);
-
+  $header['Edit']="Acciones";
 
 for($i=0;$i<count($results);$i++){
             $id = array_values($results[$i]);
@@ -30,38 +30,11 @@ echo $this->table->generate($results);
 ?>
 <?=$this->pagination->create_links();
 }?>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.toDelete').click(function(){
-        $('a.borrar').attr('href',"<?=base_url()?>index.php/{controller_name_l}/delete/"+$(this).attr('id'));
-    });
-    $(".toSee").click(function(){
-      $.ajax({
-        url:"<?=base_url()?>index.php/{controller_name_l}/details/"+$(this).attr('id'),success:function(result){
-          $("#result-3").html(result);
-        }});
-    });
-    $(".toEdit").click(function(){
-      $.ajax({
-        url:"<?=base_url()?>index.php/{controller_name_l}/edit/"+$(this).attr('id'),success:function(result){
-          $("#result-2").html(result);
-        }});
-    });
-    $(".toAdd").click(function(){
-      $.ajax({
-        url:"<?=base_url()?>index.php/{controller_name_l}/add/",success:function(result){
-          $("#result-4").html(result);
-        }});
-    });
-});
-</script>
-<?$this->load->view('footer')?>
-</body>
-</html>
+
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div class="modal fade" id="myModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content" style="z-index:1000">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Alerta</h4>
@@ -79,14 +52,8 @@ $(document).ready(function(){
 <!-- Modal2 -->
 <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar</h4>
-      </div>
-      <div class="modal-body" id="result-2">
-       
-      </div>
+    <div class="modal-content" id="result-2">
+    
     </div>
   </div>
 </div>
@@ -107,14 +74,27 @@ $(document).ready(function(){
 <!-- Modal3 -->
 <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
   <div class="modal-dialog">
+    <div class="modal-content" id="result-4">
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="galeria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Detalles</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">Galeria</h4>
       </div>
-      <div class="modal-body" id="result-4">
+      <div class="modal-body resultado">
        
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="guarda" data-dismiss="modal" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
 </div>
+<?$this->load->view('list_js')?>
+<?$this->load->view('footer')?>
