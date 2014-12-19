@@ -56,6 +56,9 @@
                 <li>
                   <a href="<?=base_url()?>codegen">Codegen</a>
                 </li>
+                <li>
+                  <a href="<?=base_url()?>auth">Usuarios</a>
+                </li>
                  <li>
                   <a href="<?=base_url()?>config">Configuración</a>
                 </li>
