@@ -20,14 +20,20 @@
               "paging": false,
               "info":false,
               "scrollX":true,
-              "language": {
-                "search": "Buscar:"
-              },
                "language": {
-                "zeroRecords": "No se encontró ninguna coincidencia"
+                "zeroRecords": "No se encontró ninguna coincidencia",
+                "search": "Buscar:"
               }
             });
-          } );
+            $('#example tbody td:not(:last-child)').each(function() { 
+                $(this).html('<a href="#" onClick="buscar(\''+$(this).text()+'\');">' + $(this).text() + '</a>');
+            });
+            $('.dataTables_filter').append('<a class="btn btn-success btn-small" href="#" onclick="buscar(\'\')">x</a>');
+          });
+          function buscar(s){
+              $("#example").dataTable().fnFilter(s);
+          }
+
         </script>
 <style>
     body{padding-top:70px;}
