@@ -22,11 +22,7 @@
     });
     $('#myModal').appendTo("body");
     
-    $("#fecha").datetimepicker({
-        language: "es",
-        pick12HourFormat: true
-    });
-                                    
+
 </script>
 </body>
 </html>

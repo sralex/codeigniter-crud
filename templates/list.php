@@ -16,12 +16,12 @@ if(!$results){
 
 for($i=0;$i<count($results);$i++){
             $id = array_values($results[$i]);
-            $results[$i]['Edit']     = '<div class="btn-group">'
+            $results[$i]['Edit']     = '<div class="btn-group" role="group" style="width:120px;">'
             .anchor('#','<span class="glyphicon glyphicon-eye-open"></span>',array("id"=>$id[0],"class"=>"btn btn-success toSee","data-toggle"=>"modal","data-target"=>"#myModal3"))
             .anchor('#','<span class="glyphicon glyphicon-pencil"></span>',array('id'=>$id[0],'class'=>'btn btn-warning toEdit',"data-toggle"=>"modal","data-target"=>"#myModal2"))
             .anchor('#','<span class="glyphicon glyphicon-trash"></span>',array("id"=>$id[0],"class"=>"btn btn-danger toDelete","data-toggle"=>"modal","data-target"=>"#myModal")).'</div>';
             //$results[$i]['Delete']   =                                           
-            if($results[$i]['foto']!=null){
+            if(isset($results[$i]['foto'])){
             $results[$i]['foto'] = '<a target="blank_" href="'.$results[$i]['foto'].'"><img width="140px" src="'.$results[$i]['foto'].'"></a>';
             }
             array_shift($results[$i]);                        
@@ -32,7 +32,7 @@ array_shift($clean_header);
 $this->table->set_heading($clean_header); 
 
 // view
-$tmpl = array ( 'table_open'  => '<table class="table">' );
+$tmpl = array ( 'table_open'  => '<table class="table table-striped table-bordered" id="example">' );
 $this->table->set_template($tmpl);
 echo $this->table->generate($results); 
 if($where==" "){

@@ -1,37 +1,4 @@
-<?$this->load->view('header');?>
-<script>
-    $(document).ready(function(){
-        $('.tables').change(function(){
-            var node = $(this);
-            console.log($(node).find(":selected").text());
-             $.ajax({
-                url:'<?=base_url()?>index.php/codegen/getFields/'+$(node).find(":selected").text(),
-                type:'POST',
-                dataType: 'json',
-                success: function( json ) {
-                    //console.log(json);
-                    $(node).parent().parent().find('#value').find('option').remove();
-                    $.each(json, function(i, value) {
-                        $(node).parent().parent().find('#value').append($('<option>').text(value.Field).attr('value', value.Field));
-                    });
-                }
-            });
-        });
-           
-    });
-</script>
-<form action="<?php echo current_url();?>" method="post" id="form">
-<p style="font-weight: bold; color:red;">Database tables/data and files will be reverted every hour</p>
-<p>MySQL Table
-<?php
-$db_tables = $this->db->list_tables();
-echo '<div class="col-md-3">';
-echo form_dropdown('table',$db_tables,'default','class="form-control auto_submit_item"');
-echo '</div>';
-?>
-<input class="btn btn-info" type="submit" name="table_data" value="Get Table Data" /></p>
-</form>
-<form action="<?php echo current_url();?>" method="post">
+<form action="<?php echo current_url();?>" method="post" id="create">
 <?php
 if(isset($alias)){
 ?>
@@ -153,12 +120,9 @@ if(isset($alias)){
     </td>
 </tr>
 </table>
-
+<input type="hidden" name="generate" value="asdas">
+<input type="hidden" name="table" value="" id="table_1">
 </form>
 <?php
 }
 ?>
-
-
-
-<?$this->load->view('footer');?>

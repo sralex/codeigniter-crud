@@ -20,12 +20,7 @@
               </select>
     </div>
     <div class="col-md-3" >
-              <div class="input-group input" id="datetimepicker0" data-date-format="YYYY-MM-DD hh:mm:ss">
-                  <input required="" class="form-control fecha" type="text" name="fecha" value="" id="fecha">
-                  <span class="input-group-addon">
-                  <span class="glyphicon-calendar glyphicon"></span>
-                  </span>
-              </div>
+              <input required="" class="form-control " type="text" name="" value="" id="fecha">
     </div>
     <div class="col-md-3" >
               <a href="#" id="filtrar" class="btn btn-success">Filtrar</a>

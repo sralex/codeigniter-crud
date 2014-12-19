@@ -42,6 +42,17 @@ class Codegen extends CI_Controller {
                 echo json_encode($result->result());
     }
     function index(){
+        $this->load->library('form_validation');
+        $this->load->model('codegen_model');
+        $this->load->database();
+        $this->load->helper('url');
+        $table = $this->db->list_tables();
+        $data['table'] = $table[$this->input->post('table')];
+        $result = $this->db->query("SHOW FIELDS from " . $data['table']);
+        $data['alias'] = $result->result();
+        $this->load->view("codegen_form");
+    }
+    function manage(){
         $data = '';
         $this->load->library('form_validation');
         $this->load->model('codegen_model');
@@ -59,13 +70,12 @@ class Codegen extends CI_Controller {
             {
 
                 $table = $this->db->list_tables();
+                $data['db_tables'] = $this->db->list_tables();
                 $data['table'] = $table[$this->input->post('table')];
                 $result = $this->db->query("SHOW FIELDS from " . $data['table']);
                 $data['alias'] = $result->result();
                 
             }
-            
-            
             $this->load->view('codegen', $data);
 
         } else
@@ -120,28 +130,7 @@ class Codegen extends CI_Controller {
                     }
                     // this will create a form for Add and Edit , quite dirty for now
                     if($type[$k][0] == 'user'){
-                        /*
-                         $add_form[] = '
-                                    <div class="clearfix"></div>
-                                    <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
-                                    <div class="col-sm-10">                                
-                                    <textarea '.$req.' class="form-control" id="'.$k.'" name="'.$k.'"><?php echo set_value(\''.$k.'\'); ?></textarea>
-                                    <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
-                                    </div>
-                                    </div>
-                                    ';
-                                    
-                         $edit_form[] = '
-                                    <div class="clearfix"></div>
-                                    <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="'.$k.'">'.$v.$required.'</label>
-                                    <div class="col-sm-10">                                
-                                    <textarea '.$req.' class="form-control" id="'.$k.'" name="'.$k.'"><?php echo $result->'.$k.' ?></textarea>
-                                    <?php echo form_error(\''.$k.'\',\'<div>\',\'</div>\'); ?>
-                                    </div>
-                                    </div>
-                                    ';*/
+                        
                     }else if($type[$k][0] == 'textarea'){
                          $add_form[] = '
                                     <div class="clearfix"></div>
@@ -437,32 +426,10 @@ class Codegen extends CI_Controller {
 
                 
                 $fields = implode(',',$fields_list);
-                
                 $form_data = implode(','."\n\t\t\t\t\t\t\t\t",$form_val_data);
-                
                 $file_validation = 'application/config/form_validation.php';
-                
-                //$search_form = array('{validation_name}','{form_val_data}');
-               // $replace_form = array($this->input->post('validation'),$form_data);
                 $form_validation_data = "'".$this->input->post('table')."' => array(".$form_data.")";
-                /*
-                if(file_exists('application/config/form_validation.php')){
-                    $form_v = file_get_contents('application/config/form_validation.php');
-                     $old_form =  str_replace(array('<?php','?>','$config = array(',');'),'',$form_v)."\t\t\t\t,\n\n\t\t\t\t";
-                    include('application/config/form_validation.php');
-                    
-                    if(isset($config[$this->input->post('table')])){
-                        // rules already existed , reload rules
-                        $form_content = str_replace('{form_validation_data}',$form_validation_data,file_get_contents('templates/form_validation.php')); 
-                    }else{
-                        // append new rule
-                        $form_content = str_replace('{form_validation_data}',$old_form.$form_validation_data,file_get_contents('templates/form_validation.php'));   
-                    }
                 
-                }else{  
-                    $form_content = str_replace('{form_validation_data}',$form_validation_data,file_get_contents('templates/form_validation.php'));
-                
-                }*/
                 /////////////// add a new way to edit the form rules
                 if(file_exists('application/config/form_validation.json')){
                     $form_d = file_get_contents('application/config/form_validation.json');
@@ -474,8 +441,7 @@ class Codegen extends CI_Controller {
                ////////////////////
                 $c_path = 'application/controllers/';
                 $m_path = 'application/models/'; 
-                $v_path = 'application/views/';                              
-                
+                $v_path = 'application/views/';
                 ///////////////// controller
                 $controller = file_get_contents('templates/controller.php');
                 $search = array('{pre}','{controller_name}', '{view}', '{table}','{validation_name}',
@@ -497,18 +463,13 @@ class Codegen extends CI_Controller {
 
                 
                 $file_controller = $c_path . $this->input->post('controller') . '.php';
-                
-
-              
                 // create view/form, TODO, make this a function! and make a stop overwriting files
                 
                 //VIEW/LIST FORM
                 $list_v = file_get_contents('templates/list.php');
                 
                 $list_content = str_replace('{controller_name_l}',$this->input->post('controller'),$list_v);
-                
- 
-                
+
                 //ADD FORM
                 $add_v = file_get_contents('templates/add.php');
                 

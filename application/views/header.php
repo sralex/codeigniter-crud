@@ -11,8 +11,24 @@
         <script src="<?=base_url();?>/assets/js/bootstrap-datetimepicker.min.js"></script>
         <link href="<?=base_url();?>/assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
         <script src="<?=base_url()?>assets/js/Chart.js"></script>
-        <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+        <link href="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet"/>
+        <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+        <script src="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+        <script type="text/javascript" charset="utf-8">
+          $(document).ready(function() {
+            $('#example').dataTable({
+              "paging": false,
+              "info":false,
+              "scrollX":true,
+              "language": {
+                "search": "Buscar:"
+              },
+               "language": {
+                "zeroRecords": "No se encontró ninguna coincidencia"
+              }
+            });
+          } );
+        </script>
 <style>
     body{padding-top:70px;}
 </style>
