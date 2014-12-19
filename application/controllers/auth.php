@@ -13,7 +13,9 @@ class Auth extends CI_Controller {
 
 		$this->lang->load('auth');
 	}
-
+	function error(){
+		echo "error de permisos";
+	}
 	//redirect if needed, otherwise display the user list
 	function index()
 	{

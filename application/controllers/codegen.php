@@ -58,6 +58,7 @@ class Codegen extends CI_Controller {
         $this->load->model('codegen_model');
         $this->load->database();
         $this->load->helper('url');
+        
         if ($this->input->post('table_data') || !$_POST)
         {
             // get table data
@@ -111,6 +112,7 @@ class Codegen extends CI_Controller {
                     exit;
                 }
                 ***/
+                $permisos = $this->input->post('permisos');
                 $rules = $this->input->post('rules');
                 $label = $this->input->post('field');
                 $type = $this->input->post('type');
@@ -444,9 +446,10 @@ class Codegen extends CI_Controller {
                 $v_path = 'application/views/';
                 ///////////////// controller
                 $controller = file_get_contents('templates/controller.php');
-                $search = array('{pre}','{controller_name}', '{view}', '{table}','{validation_name}',
+                $search = array('{grupos}','{pre}','{controller_name}', '{view}', '{table}','{validation_name}',
                 '{data}','{edit_data}','{controller_name_l}','{primaryKey}','{fields_list}');
                 $replace = array(
+                            implode("','",$permisos),
                             implode(' ',$preconsult),
                             ucfirst($this->input->post('controller')), 
                             $this->input->post('view'),

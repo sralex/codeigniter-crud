@@ -7,19 +7,36 @@ class {controller_name} extends CI_Controller {
 		$this->load->library('form_validation');		
 		$this->load->helper(array('form','url','codegen_helper'));
 		$this->load->model('codegen_model','',TRUE);
+        $this->load->library('ion_auth');
     }  
 	function index(){
 		$this->manage();
 	}
+    function checkLogin(){
+        if (!$this->ion_auth->logged_in())
+        {
+            //redirect them to the login page
+            redirect('auth/login', 'refresh');
+        }
+        else if (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
+        {
+            //redirect them to the home page because they must be an administrator to view this
+            if (!$this->ion_auth->in_group(Array('{grupos}'))){
+                $this->session->set_flashdata('message', 'Tu deberias estar en el/los grupo/s {grupos} para ver esta pagina');
+                return show_error('You must be an administrator to view this page.');
+            }
+        }
 
+    }
 	function manage(){
+        $this->checkLogin();
         $this->load->library('table');
         $this->load->library('pagination');
         //paging
         $config['base_url'] = base_url().'index.php/{controller_name_l}/manage/';
         $config['total_rows'] = $this->codegen_model->count('{table}');
         $config['per_page'] = 10;
-        $this->pagination->initialize($config);     
+        $this->pagination->initialize($config);
         // make sure to put the primarykey first when selecting , 
         //eg. 'userID,name as Name , lastname as Last_Name' , Name and Last_Name will be use as table header.
         // Last_Name will be converted into Last Name using humanize() function, under inflector helper of the CI core.
@@ -47,7 +64,8 @@ class {controller_name} extends CI_Controller {
 		
     }
 	
-    function add(){        
+    function add(){ 
+    $this->checkLogin();       
         $this->load->library('form_validation');    
 		$this->data['custom_error'] = '';
 		{pre}
@@ -80,7 +98,8 @@ class {controller_name} extends CI_Controller {
         //$this->template->load('content', '{view}_add', $this->data);
     }	
     
-    function edit(){      
+    function edit(){    
+    $this->checkLogin();  
         $this->load->library('form_validation');    
 		$this->data['custom_error'] = '';
 		{pre}
@@ -114,11 +133,13 @@ class {controller_name} extends CI_Controller {
         //$this->template->load('content', '{view}_edit', $this->data);
     }
 	function details(){
+        $this->checkLogin();
         $last = 'where {primaryKey} = '.$this->uri->segment(3);
         $this->data['result'] = $this->codegen_model->query('SELECT  {fields_list} FROM {table} '.$last);
         $this->load->view('details', $this->data);        
     }
     function delete(){
+        $this->checkLogin();
             $ID =  $this->uri->segment(3);
             $this->codegen_model->delete('{table}','{primaryKey}',$ID);             
             redirect(base_url().'index.php/{controller_name_l}/manage/');

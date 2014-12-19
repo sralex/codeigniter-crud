@@ -1,5 +1,13 @@
 <form action="<?php echo current_url();?>" method="post" id="create">
 <?php
+$db_tables = $this->ion_auth->groups()->result();
+$n = array();
+foreach ($db_tables as $t){
+    $n[] = Array($t->name => $t->name);
+}
+echo form_multiselect('permisos[]',$n,'default','class="form-control"');
+?>
+<?php
 if(isset($alias)){
 ?>
 <input type="hidden" name="table" value="<?php echo $table ?>" />
