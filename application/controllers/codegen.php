@@ -47,6 +47,7 @@ class Codegen extends CI_Controller {
         $this->load->database();
         $this->load->helper('url');
         $table = $this->db->list_tables();
+        $data['db_tables'] = $this->db->list_tables();
         $data['table'] = $table[$this->input->post('table')];
         $result = $this->db->query("SHOW FIELDS from " . $data['table']);
         $data['alias'] = $result->result();
