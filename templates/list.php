@@ -28,8 +28,10 @@ for($i=0;$i<count($results);$i++){
         }
 
 $clean_header = clean_header($header);
+
 array_shift($clean_header);
 $this->table->set_heading($clean_header); 
+$this->table->set_footer($clean_header);
 
 // view
 $tmpl = array ( 'table_open'  => '<table class="table table-striped table-bordered" id="example">' );
@@ -53,7 +55,7 @@ if($where==" "){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <a class="btn btn-primary borrar" href="#" data-dismiss="modal" >Si</a>
+        <a class="btn btn-primary borrar" href="#" >Si</a>
       </div>
     </div>
   </div>

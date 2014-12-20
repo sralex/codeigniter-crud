@@ -17,7 +17,7 @@
         <script type="text/javascript" charset="utf-8">
           $(document).ready(function() {
             $('#example').dataTable({
-              "paging": false,
+              //"paging": false,
               "info":false,
               "scrollX":true,
                "language": {
@@ -25,13 +25,48 @@
                 "search": "Buscar:"
               }
             });
-            $('#example tbody td:not(:last-child)').each(function() { 
-                $(this).html('<a href="#" onClick="buscar(\''+$(this).text()+'\');">' + $(this).text() + '</a>');
-            });
-            $('.dataTables_filter').append('<a class="btn btn-success btn-small" href="#" onclick="buscar(\'\')">x</a>');
+           links();
+           $('.dataTables_filter').append('<a class="btn btn-success btn-small" href="#" onclick="buscar(\'\')">x</a>');
+           $(document).on("click",".dataTables_scroll ,.pagination",function(){
+            links();
+           });
+           $(document).on("input",".input-sm ",function(){
+            links();
+           });
+           $('.dataTable thead th').each( function () {
+               var title = $(this).text();
+               console.log(title);
+               $('.dataTable:last tfoot td').eq($(this).index()).html( '<div class="input-group"><input class="form-control" type="text" style="width:100px;" id="'+title+'" placeholder="Search '+title+'" /><span class="input-group-btn"><button class="btn btn-default borrar" id="'+title+'" type="button">x</button></span></div>' );
+            } );
+           var table = $('#example').DataTable();
+            // Apply the search
+            if(table.context.length >0){
+              table.columns().eq( 0 ).each( function ( colIdx ) {
+                $( 'input', table.column( colIdx ).footer() ).on( 'keyup change input', function () {
+                    table
+                        .column( colIdx )
+                        .search( this.value )
+                        .draw();
+                       links(); 
+                } );
+            } );
+            }
+            $(document).on("click",".borrar",function(){
+              $('input#'+$(this).attr("id")).val("");
+              $('input#'+$(this).attr("id")).change();
+             });
           });
-          function buscar(s){
-              $("#example").dataTable().fnFilter(s);
+          
+          function links(){
+            $('#example tbody td:not(:has(a))').each(function() { 
+                var col = $('.dataTable thead th').eq($(this).index()).html();
+                $(this).html('<a href="#" onClick="buscar(\''+$(this).text()+'\',\''+col+'\');">' + $(this).text() + '</a>');
+            });
+          }
+          function buscar(s,columna){
+              $("#"+columna).val(s);
+              $("#"+columna).change();
+              links();
           }
 
         </script>

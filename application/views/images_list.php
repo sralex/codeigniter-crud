@@ -9,8 +9,8 @@ if(!$results){
 <?foreach($results as $r):?>
       <div class="col-md-4">
         <div class="thumbnail">
-          <input type="radio" name="foto" value="<?=base_url()?>uploads/<?=$r;?>" style="visibility:hidden;">
-          <img src="<?=base_url()?>uploads/<?=$r;?>" style="height:150px;" class="img-responsive">
+          <input type="radio" name="foto" value="<?=base_url()?><?=$dir?><?=$r;?>" style="visibility:hidden;">
+          <img src="<?=base_url()?><?=$dir?><?=$r;?>" style="height:150px;" class="img-responsive">
           <a href="#" id="<?=$r;?>" class="btn btn-danger toDelete_" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove"></span></a>
         </div>
       </div>

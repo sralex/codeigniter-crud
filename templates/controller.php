@@ -35,7 +35,7 @@ class {controller_name} extends CI_Controller {
         //paging
         $config['base_url'] = base_url().'index.php/{controller_name_l}/manage/';
         $config['total_rows'] = $this->codegen_model->count('{table}');
-        $config['per_page'] = 10;
+        $config['per_page'] = 100;
         $this->pagination->initialize($config);
         // make sure to put the primarykey first when selecting , 
         //eg. 'userID,name as Name , lastname as Last_Name' , Name and Last_Name will be use as table header.
@@ -64,8 +64,8 @@ class {controller_name} extends CI_Controller {
 		
     }
 	
-    function add(){ 
-    $this->checkLogin();       
+    function add(){
+    $this->checkLogin();
         $this->load->library('form_validation');    
 		$this->data['custom_error'] = '';
 		{pre}
@@ -99,7 +99,7 @@ class {controller_name} extends CI_Controller {
     }	
     
     function edit(){    
-    $this->checkLogin();  
+    $this->checkLogin();
         $this->load->library('form_validation');    
 		$this->data['custom_error'] = '';
 		{pre}
@@ -134,7 +134,7 @@ class {controller_name} extends CI_Controller {
     }
 	function details(){
         $this->checkLogin();
-        $last = 'where {primaryKey} = '.$this->uri->segment(3);
+        $last = ' where {table}.{primaryKey} = '.$this->uri->segment(3);
         $this->data['result'] = $this->codegen_model->query('SELECT  {fields_list} FROM {table} '.$last);
         $this->load->view('details', $this->data);        
     }
