@@ -32,9 +32,13 @@ class Images extends CI_Controller {
     }
     function add()
     {           
-            $this->file="";
+        $dir = './uploads/'.$this->ion_auth->user()->row()->id."/";
+        if(!file_exists($dir)){
+            mkdir($dir);
+        }
+        $this->file="";
         if(@$_FILES['file']['name']!=""){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = $dir;
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
             $config['encrypt_name'] = FALSE;
             $config['remove_spaces'] = TRUE;
@@ -42,19 +46,23 @@ class Images extends CI_Controller {
             $this->upload_file($config,'file');
         }
         $this->data['results'] = directory_map('./uploads/');
-
+        $this->data['dir'] = $dir;
         $this->load->view('images_list', $this->data); 
             
     }
 	function manage(){
 	$this->checkLogin();
-    $this->data['results'] = directory_map('./uploads/');
+    $dir = './uploads/'.$this->ion_auth->user()->row()->id."/";
+    $this->data['results'] = directory_map($dir);
     $this->load->view('images_add');
+    $this->data['dir'] = $dir;
     $this->load->view('images_list', $this->data); 
 		
     }
 	function update(){
-        $this->data['results'] = directory_map('./uploads/');
+        $dir = './uploads/'.$this->ion_auth->user()->row()->id."/";
+        $this->data['results'] = directory_map($dir);
+        $this->data['dir'] = $dir;
         $this->load->view('images_list', $this->data); 
     }
 	
