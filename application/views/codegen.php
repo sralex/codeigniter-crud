@@ -1,8 +1,8 @@
 <form action="<?php echo current_url();?>" method="post" id="create">
 <?php
-$db_tables = $this->ion_auth->groups()->result();
+$f = $this->ion_auth->groups()->result();
 $n = array();
-foreach ($db_tables as $t){
+foreach ($f as $t){
     $n[] = Array($t->name => $t->name);
 }
 echo form_multiselect('permisos[]',$n,'default','class="form-control"');
