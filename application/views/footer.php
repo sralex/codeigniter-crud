@@ -21,8 +21,6 @@
           $('.foto').html('<img src="'+url+'" width="100px">');
     });
     $('#myModal').appendTo("body");
-    
-
 </script>
 </body>
 </html>

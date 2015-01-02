@@ -10,33 +10,52 @@
         <script src="<?=base_url();?>/assets/js/bootstrap.js"></script>
         <script src="<?=base_url();?>/assets/js/bootstrap-datetimepicker.min.js"></script>
         <link href="<?=base_url();?>/assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
+        
         <script src="<?=base_url()?>assets/js/Chart.js"></script>
         <link href="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet"/>
         <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
         <script src="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+        <script src="http://malsup.github.io/jquery.form.js"></script>
+        <link rel="stylesheet" href="https://datatables.net/release-datatables/extensions/TableTools/css/dataTables.tableTools.css">
+        <script src="https://datatables.net/release-datatables/extensions/TableTools/js/dataTables.tableTools.js"></script>
         <script type="text/javascript" charset="utf-8">
           $(document).ready(function() {
             $('#example').dataTable({
               //"paging": false,
-              "info":false,
+              "dom": 'T<"clear">lfrtip',
+              "tableTools": {
+                  "sSwfPath": "<?=base_url()?>assets/swf/copy_csv_xls_pdf.swf",
+                  "aButtons": [
+                      "copy",
+                      "csv",
+                      "xls",
+                      {
+                          "sExtends": "pdf",
+                          "sTitle": "My title"
+                      },
+                      "print"
+                  ]
+              },
+
+              "info":true,
               "scrollX":true,
                "language": {
                 "zeroRecords": "No se encontró ninguna coincidencia",
-                "search": "Buscar:"
+                "search": "Buscar:",
+                "info": "Mostrando pagina _PAGE_ de _PAGES_ de _TOTAL_ registros",
+                "infoFiltered": " - filtrado de _MAX_ registros"
               }
             });
-           links();
-           $('.dataTables_filter').append('<a class="btn btn-success btn-small" href="#" onclick="buscar(\'\')">x</a>');
-           $(document).on("click",".dataTables_scroll ,.pagination",function(){
-            links();
-           });
-           $(document).on("input",".input-sm ",function(){
-            links();
-           });
+           
+           $('.dataTables_filter').css('display','none');
+          var dataTable = $('#example').dataTable();
+          $("#searchbox").on('keyup change input', function (){
+              dataTable.fnFilter(this.value);
+          }); 
            $('.dataTable thead th').each( function () {
                var title = $(this).text();
                console.log(title);
-               $('.dataTable:last tfoot td').eq($(this).index()).html( '<div class="input-group"><input class="form-control" type="text" style="width:100px;" id="'+title+'" placeholder="Search '+title+'" /><span class="input-group-btn"><button class="btn btn-default borrar" id="'+title+'" type="button">x</button></span></div>' );
+               $('.dataTable:last tfoot td').eq($(this).index()).html( '<div class="input-group"><input class="form-control" type="text"  id="'+$(this).index()+'_" placeholder="Search '+title+'" /><span class="input-group-btn"><button class="btn btn-default borrar" data="'+title+'" type="button">x</button></span></div>' );
             } );
            var table = $('#example').DataTable();
             // Apply the search
@@ -47,28 +66,21 @@
                         .column( colIdx )
                         .search( this.value )
                         .draw();
-                       links(); 
+                        
                 } );
             } );
             }
             $(document).on("click",".borrar",function(){
-              $('input#'+$(this).attr("id")).val("");
-              $('input#'+$(this).attr("id")).change();
-             });
-          });
-          
-          function links(){
-            $('#example tbody td:not(:has(a))').each(function() { 
-                var col = $('.dataTable thead th').eq($(this).index()).html();
-                $(this).html('<a href="#" onClick="buscar(\''+$(this).text()+'\',\''+col+'\');">' + $(this).text() + '</a>');
+              $(this).parent().prev().val('').change();
+             });  
+            $(document).on('click','#example tbody td:not(:has(a))',function(){
+              $("#"+$(this).index()+"_").val($(this).text()).change();
             });
-          }
-          function buscar(s,columna){
-              $("#"+columna).val(s);
-              $("#"+columna).change();
-              links();
-          }
-
+            $(document).on('dblclick','#example tbody td',function(){
+              $("#"+$(this).index()+"_").val('').change();
+            });
+            
+          });
         </script>
 <style>
     body{padding-top:70px;}
@@ -124,7 +136,7 @@
   </div>
 
   <div class="row clearfix">
-    <div class="col-md-2 column" style="padding:0; margin:0;">
+    <div class="col-md-1 column" style="padding:0; margin:0;">
     <ul class="nav nav-tabs nav-stacked">
         <?$res = $this->controllerlist->getControllers();?>
             <?if($res != null):?>
@@ -138,4 +150,4 @@
       </ul>
             
     </div>
-    <div class="col-md-10 column">
+    <div class="col-md-11 column">

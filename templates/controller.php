@@ -45,20 +45,8 @@ class {controller_name} extends CI_Controller {
         }else{
             $var = $this->uri->segment(3);
         }
-        $where= " ";
-        if(($this->uri->segment(4)!="")and($this->uri->segment(5)!="")and($this->uri->segment(6))){
-            $operator = Array(0,'=','<','>','<=','>=','like','!=');
-            $operator = $operator[$this->uri->segment(5)];
-            $where .= "where ".$this->uri->segment(4);
-            $where .= " ".$operator;
-            $where .= " '".$this->uri->segment(6)."'";
-            $limit = "";
-            $config['per_page'] = 100;
-        }
-        $this->data['where'] = $where;
         $limit = ' LIMIT '.$var.','.$config['per_page'];
-
-        $this->data['consulta']= 'SELECT {fields_list} FROM {table} '.$where.$limit;
+        $this->data['consulta']= 'SELECT {fields_list} FROM {table} '.$limit;
         $this->data['results'] = $this->codegen_model->query($this->data['consulta']);
         $this->load->view('{view}_list', $this->data); 
 		
@@ -86,7 +74,8 @@ class {controller_name} extends CI_Controller {
 			{
 				//$this->data['custom_error'] = '<div class="form_ok"><p>Added</p></div>';
 				// or redirect
-				redirect(base_url().'index.php/{controller_name_l}/manage/');
+				//redirect(base_url().'index.php/{controller_name_l}/manage/');
+                $this->data['custom_error']='<div class="text-center text-info"><p>Elemento agregado</p></div>';
 			}
 			else
 			{

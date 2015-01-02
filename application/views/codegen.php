@@ -11,7 +11,7 @@ echo form_multiselect('permisos[]',$n,'default','class="form-control"');
 if(isset($alias)){
 ?>
 <input type="hidden" name="table" value="<?php echo $table ?>" />
-<table>
+<table >
 <tr>
     <td>
     <div class="row">

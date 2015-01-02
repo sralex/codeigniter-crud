@@ -113,6 +113,8 @@ class Codegen extends CI_Controller {
                     exit;
                 }
                 ***/
+                $permisos  = Array();
+                if($this->input->post('permisos')!="")
                 $permisos = $this->input->post('permisos');
                 $rules = $this->input->post('rules');
                 $label = $this->input->post('field');
