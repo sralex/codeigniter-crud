@@ -18,73 +18,94 @@
         <script src="http://malsup.github.io/jquery.form.js"></script>
         <link rel="stylesheet" href="https://datatables.net/release-datatables/extensions/TableTools/css/dataTables.tableTools.css">
         <script src="https://datatables.net/release-datatables/extensions/TableTools/js/dataTables.tableTools.js"></script>
+        <style type="text/css">
+        body{
+          background-color: #F0F0F0  ;
+          padding-top:70px;
+        }
+        .dropdown:hover .dropdown-menu {
+    display: block;
+ }
+        </style>
         <script type="text/javascript" charset="utf-8">
-          $(document).ready(function() {
-            $('#example').dataTable({
-              //"paging": false,
-              "dom": 'T<"clear">lfrtip',
-              "tableTools": {
-                  "sSwfPath": "<?=base_url()?>assets/swf/copy_csv_xls_pdf.swf",
-                  "aButtons": [
-                      "copy",
-                      "csv",
-                      "xls",
-                      {
-                          "sExtends": "pdf",
-                          "sTitle": "My title"
-                      },
-                      "print"
-                  ]
-              },
+          $(document).on("ready",function() {
+            var url = $(location).attr('href').slice(1).split('#');
+            var controller_name = url[1];
+             llamaModulo(controller_name);
+            $(".modulo").on('click',function(){
+            llamaModulo($(this).attr("href").slice(1));
+            });
 
-              "info":true,
-              "scrollX":true,
-               "language": {
-                "zeroRecords": "No se encontró ninguna coincidencia",
-                "search": "Buscar:",
-                "info": "Mostrando pagina _PAGE_ de _PAGES_ de _TOTAL_ registros",
-                "infoFiltered": " - filtrado de _MAX_ registros"
-              }
+            $(document).on("click",'.get_action',function(){
+              console.log($(this).parent().html() );
+                var action = $(this).data('action');
+                var id = $(this).attr('data-id');
+                var url = $(location).attr('href').slice(1).split('#');
+                var controller_name = url[1];
+                var target_result = $(this).data('result');
+                var update = $(this).data('update');
+                $.ajax({
+                  url:"<?=base_url()?>index.php/"+controller_name+"/"+action+"/"+id,success:function(result){
+                  console.log(result+"en->");
+                  console.log(target_result);
+                  $(target_result).empty();
+                  $(target_result).html(result);
+                  llamaModulo(update);
+                }});
             });
-           
-           $('.dataTables_filter').css('display','none');
-          var dataTable = $('#example').dataTable();
-          $("#searchbox").on('keyup change input', function (){
-              dataTable.fnFilter(this.value);
-          }); 
-           $('.dataTable thead th').each( function () {
-               var title = $(this).text();
-               console.log(title);
-               $('.dataTable:last tfoot td').eq($(this).index()).html( '<div class="input-group"><input class="form-control" type="text"  id="'+$(this).index()+'_" placeholder="Search '+title+'" /><span class="input-group-btn"><button class="btn btn-default borrar" data="'+title+'" type="button">x</button></span></div>' );
-            } );
-           var table = $('#example').DataTable();
-            // Apply the search
-            if(table.context.length >0){
-              table.columns().eq( 0 ).each( function ( colIdx ) {
-                $( 'input', table.column( colIdx ).footer() ).on( 'keyup change input', function () {
-                    table
-                        .column( colIdx )
-                        .search( this.value )
-                        .draw();
-                        
-                } );
-            } );
-            }
-            $(document).on("click",".borrar",function(){
-              $(this).parent().prev().val('').change();
-             });  
-            $(document).on('click','#example tbody td:not(:has(a))',function(){
-              $("#"+$(this).index()+"_").val($(this).text()).change();
+            $(document).on("click",'.delete_action',function(){
+               
+                var url = $(location).attr('href').slice(1).split('#');
+                var controller_name = url[1];
+                $('#btn_delete').attr('data-id',$(this).attr('data-id')).attr('data-update',controller_name);
+                console.log($('#btn_delete').parent().html());
             });
-            $(document).on('dblclick','#example tbody td',function(){
-              $("#"+$(this).index()+"_").val('').change();
+            $(document).on("click",'.refresh',function(){
+                    var url = $(location).attr('href').slice(1).split('#');
+                    var controller_name = url[1];
+                    llamaModulo(controller_name);
             });
-            
+             $(document).on("submit",'#module_form',function(){
+              var url = $(location).attr('href').slice(1).split('#');
+              var controller_name = url[1];
+              var frm = $(this);
+              console.log("module_form"+frm);
+                $.ajax({
+                  url:frm.attr('action'),
+                  data:frm.serialize(),
+                  type: frm.attr('method'),
+                  success:function(result){
+                      var url = $(location).attr('href').slice(1).split('#');
+                      var controller_name = url[1];
+                      $('#module_modal').modal('hide');
+                      llamaModulo(controller_name);
+                  }});
+                return false;
+              });
+             $(window).on('hashchange', function(e){
+               var url = $(location).attr('href').slice(1).split('#');
+               var controller_name = url[1];
+               llamaModulo(controller_name);
+              });
           });
+          //menu
+          function llamaModulo(modulo){
+             $.ajax({
+              url:"<?=base_url()?>index.php/"+modulo+"/",success:function(result){
+                $("#contenido_modulos").html(result);
+                  $('#example').dataTable({
+                   //"paging": false,
+                  "scrollX":true,
+                  "language": {
+                  "zeroRecords": "No se encontró ninguna coincidencia",
+                  "search": "Buscar:",
+                  "info": "Mostrando pagina _PAGE_ de _PAGES_ de _TOTAL_ registros",
+                  "infoFiltered": " - filtrado de _MAX_ registros"
+                    }
+                  });
+              }});
+          }
         </script>
-<style>
-    body{padding-top:70px;}
-</style>
 </head>
 <body>
 <div class="container-fluid">
@@ -115,7 +136,21 @@
               </ul>
             </li>
           </ul>
-          
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modulos<strong class="caret"></strong></a>
+              <ul class="dropdown-menu">
+                  <?$res = $this->controllerlist->getControllers();?>
+                    <?if($res != null):?>
+                    <?foreach($res as $row => $value):?>
+                    <li>
+                      <a class="modulo" id="<?=$row?>_module" href="#<?=$row?>"><?=$row?></a>
+                    </li>
+                    <?endforeach;?>
+                    <?endif;?>
+              </ul>
+            </li>
+          </ul>
           <ul class="nav navbar-nav navbar-right">
            
             <li class="dropdown">
@@ -136,18 +171,4 @@
   </div>
 
   <div class="row clearfix">
-    <div class="col-md-1 column" style="padding:0; margin:0;">
-    <ul class="nav nav-tabs nav-stacked">
-        <?$res = $this->controllerlist->getControllers();?>
-            <?if($res != null):?>
-            <?foreach($res as $row => $value):?>
-            
-              <li>
-              <a href="<?=base_url()?><?=$row?>"><?=$row?></a>
-            </li>
-            <?endforeach;?>
-            <?endif;?>
-      </ul>
-            
-    </div>
-    <div class="col-md-11 column">
+    <div class="col-md-12 column" id="contenido_modulos" >
