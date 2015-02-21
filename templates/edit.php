@@ -1,5 +1,5 @@
 <?php 
-echo form_open(current_url()); ?>
+echo form_open(current_url(),Array('id'=>'module_form')); ?>
 <?php echo $custom_error; ?>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

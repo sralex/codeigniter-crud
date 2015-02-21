@@ -121,17 +121,17 @@ class {controller_name} extends CI_Controller {
 		$this->load->view('{view}_edit', $this->data);		
         //$this->template->load('content', '{view}_edit', $this->data);
     }
-	function details(){
+	function view(){
         $this->checkLogin();
         $last = ' where {table}.{primaryKey} = '.$this->uri->segment(3);
         $this->data['result'] = $this->codegen_model->query('SELECT  {fields_list} FROM {table} '.$last);
         $this->load->view('details', $this->data);        
     }
     function delete(){
-        $this->checkLogin();
+            $this->checkLogin();
             $ID =  $this->uri->segment(3);
             $this->codegen_model->delete('{table}','{primaryKey}',$ID);             
-            redirect(base_url().'index.php/{controller_name_l}/manage/');
+            //redirect(base_url().'index.php/#{controller_name_l}');
     }
 }
 
