@@ -45,7 +45,7 @@ class Images extends CI_Controller {
             $config['max_size'] = '4048';
             $this->upload_file($config,'file');
         }
-        $this->data['results'] = directory_map('./uploads/');
+        $this->data['results'] = directory_map($dir);
         $this->data['dir'] = $dir;
         $this->load->view('images_list', $this->data); 
             
@@ -69,7 +69,8 @@ class Images extends CI_Controller {
     function delete(){
     		$this->checkLogin();
             $ID =  $this->input->post('id');
-            unlink('./uploads/'.$ID);
+            $dir = './uploads/'.$this->ion_auth->user()->row()->id."/";
+            unlink($dir.$ID);
 
     }
     public  function check_file($field,$field_value)

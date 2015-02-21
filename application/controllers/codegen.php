@@ -15,6 +15,14 @@ class Codegen extends CI_Controller {
      function __construct() {
         parent::__construct();
     }  
+    function checarLogin(){
+        $this->lang->load('auth');
+        if (!$this->ion_auth->logged_in())
+        {
+            //redirect them to the login page
+            redirect('auth/login', 'refresh');
+        }
+    }
     function getTable($table="",$key="",$value){
         $this->load->database();
         $this->load->model('codegen_model');
@@ -42,6 +50,7 @@ class Codegen extends CI_Controller {
                 echo json_encode($result->result());
     }
     function index(){
+        $this->checarLogin();
         $this->load->library('form_validation');
         $this->load->model('codegen_model');
         $this->load->database();
