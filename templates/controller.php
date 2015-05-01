@@ -1,5 +1,5 @@
 <?php
-
+//{grupos}
 class {controller_name} extends CI_Controller {
     
     function __construct() {

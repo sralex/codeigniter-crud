@@ -14,13 +14,19 @@
 class Codegen extends CI_Controller {
      function __construct() {
         parent::__construct();
+        $this->load->library(array('ion_auth','form_validation'));
+        $this->lang->load('auth');
     }  
     function checarLogin(){
-        $this->lang->load('auth');
         if (!$this->ion_auth->logged_in())
         {
             //redirect them to the login page
             redirect('auth/login', 'refresh');
+        }
+        elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
+        {
+            //redirect them to the home page because they must be an administrator to view this
+            return show_error('You must be an administrator to view this page.');
         }
     }
     function getTable($table="",$key="",$value){
@@ -63,6 +69,7 @@ class Codegen extends CI_Controller {
         $this->load->view("codegen_form");
     }
     function manage(){
+        $this->checarLogin();
         $data = '';
         $this->load->library('form_validation');
         $this->load->model('codegen_model');
@@ -341,7 +348,7 @@ class Codegen extends CI_Controller {
                                       <div class="input-group">
                                       <?=$input;?>
                                       <span class="input-group-btn">
-                                        <a class="btn btn-primary" href="<?=base_url().$table?>/manage" target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="btn btn-primary" href="<?=base_url()?>#<?=$table?>" target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
                                       </span>
                                     </div><!-- /input-group -->
                                     
@@ -368,7 +375,7 @@ class Codegen extends CI_Controller {
                                       <div class="input-group">
                                       <?=$input;?>
                                       <span class="input-group-btn">
-                                        <a class="btn btn-primary" href="<?=base_url().$table?>/manage" target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="btn btn-primary" href="<?=base_url()?>#<?=$table?>"  target="_blank"  ><span class="glyphicon glyphicon-plus"></span></a>
                                       </span>
                                     </div><!-- /input-group -->
                                     

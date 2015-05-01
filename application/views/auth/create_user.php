@@ -46,26 +46,6 @@
       </div>
       <div class="form-group">
             <div class="col-md-2">
-            <?=lang('create_user_company_label', 'company');
-            $company['class'] ='form-control'; 
-            ?>
-             </div>
-            <div class="col-md-9">
-            <?=form_input($company);?>
-            </div>
-      </div>
-      <div class="form-group">
-            <div class="col-md-2">
-            <?=lang('create_user_phone_label', 'phone');
-            $phone['class'] ='form-control'; 
-            ?>
-             </div>
-            <div class="col-md-9">
-            <?=form_input($phone);?>
-            </div>
-      </div>
-      <div class="form-group">
-            <div class="col-md-2">
             <?=lang('create_user_password_label', 'password');
             $password['class'] ='form-control'; ?>
              </div>

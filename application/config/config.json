@@ -1,1 +1,1 @@
-{"config":{"database":{"database":"mi_uv","host":"localhost","user":"root","password":"123456"},"system":{"name":"Codecrud","administrator":"Codecrud","title":"Codecrud","tags":"Codecrud","description":"Codecrud"}}}
+{"config":{"database":{"database":"cines","host":"localhost","user":"root","password":"123456"},"system":{"name":"Codecrud","administrator":"Codecrud","title":"Codecrud","tags":"Codecrud","description":"Codecrud"}}}

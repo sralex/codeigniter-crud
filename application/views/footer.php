@@ -1,10 +1,17 @@
-		</div>
-	</div>
-	<div class="row clearfix">
+	  </div>
+</div>
+      </div>
+      <footer class="pull-left footer">
+        <p class="col-md-12">
+          <hr class="divider">
+          Copyright &COPY; 2015 <a href="http://www.pingpong-labs.com">Gravitano</a>
+        </p>
+      </footer>
+    </div>
+  <div class="row clearfix">
 		<div class="col-md-12 column">
 		</div>
 	</div>
-</div>
 <!-- Modal -->
 <div class="modal fade" id="module_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -32,6 +39,7 @@
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="galeria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -66,6 +74,12 @@
           console.log(url);
     });
     $('#myModal').appendTo("body");
+    $(document).on("click","#agregar",function(){
+      
+        var clon  = $('#copy').clone();
+        console.log(clon.html());
+        $('#paste').append(clon);
+    });
 </script>
 </body>
 </html>

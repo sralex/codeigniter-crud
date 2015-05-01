@@ -26,9 +26,13 @@ class Images extends CI_Controller {
 	
    function index(){
     $this->checkLogin();
-    $this->data['results'] = directory_map('./uploads/');
+     $dir = '/uploads/'.$this->ion_auth->user()->row()->id."/";
+   $this->data['results'] = directory_map($dir);
+    $this->data['dir'] = $dir;
+     $this->load->view('header');
     $this->load->view('images_add');
     $this->load->view('images_list', $this->data);
+     $this->load->view('footer');
     }
     function add()
     {           
@@ -66,12 +70,10 @@ class Images extends CI_Controller {
         $this->load->view('images_list', $this->data); 
     }
 	
-    function delete(){
+    function delete($ID){
     		$this->checkLogin();
-            $ID =  $this->input->post('id');
             $dir = './uploads/'.$this->ion_auth->user()->row()->id."/";
             unlink($dir.$ID);
-
     }
     public  function check_file($field,$field_value)
     {

@@ -1,4 +1,4 @@
-<?$this->load->view('header');?>
+<?$this->load->view('config/header');?>
             <?=form_open('config/config');?>
             	<h3>Configuración del sistema </h3>
             	<input name="name" class="form-control" type="text" placeholder="nombre del sistema" value="<?=$system->name?>">

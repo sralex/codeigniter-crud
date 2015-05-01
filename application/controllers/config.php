@@ -17,6 +17,8 @@ class Config extends CI_Controller {
         $this->load->helper('file');
         $this->load->helper('form');
         $this->load->helper('url');
+        $this->load->library(array('ion_auth','form_validation'));
+        $this->lang->load('auth');
 
     }
     function index(){
@@ -26,6 +28,7 @@ class Config extends CI_Controller {
         $this->load->view('plantilla');
     }
     public function conf(){
+       
         if(!isset($_POST['host'])){
         $json = json_decode(read_file('./application/config/config.json'));
         $data = $json->config;

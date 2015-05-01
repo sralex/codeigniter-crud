@@ -1,4 +1,4 @@
-<?$this->load->view('header')?>
+<?$this->load->view('config/header')?>
   <script>
   function limpiarC(){
   
@@ -177,10 +177,10 @@
 </script>
 <div class="container">
 <div class="col-md-12">
-      <a href="#" id="clonar" class="btn btn-primary">Agregar tabla</a>
-      <a href="#" result="allow" onclick="return CloseMySelf(this);" class="btn btn-warning">Aceptar</a>
-      <a href="#" onclick="limpiarC()" class="btn btn-success">Limpiar</a>
-      <a href="#" onclick="operator()" class="btn btn-success">Agregar operador</a>
+      <button type="button" href="#" id="clonar" class="btn btn-primary">Agregar tabla</button>
+      <button type="button" href="#" result="allow" onclick="return CloseMySelf(this);" class="btn btn-warning">Aceptar</button>
+      <button type="button" href="#" onclick="limpiarC()" class="btn btn-success">Limpiar</button>
+      <button type="button" href="#" onclick="operator()" class="btn btn-success">Agregar operador</button>
 </div>
 <div class="col-md-12">
     <div id="contenedor">

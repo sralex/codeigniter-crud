@@ -58,7 +58,7 @@ class ControllerList {
 	 */
 	private function setControllers() {
 		$not_availables = array('get_instance','__construct','delete','edit','index');
-		$not_controllers = array('codegen','auth','config','querys','images');
+		$not_controllers = array('codegen','auth','config','querys','images','welcome');
 		// Loop through the controller directory
 		foreach(glob(APPPATH . 'controllers/*') as $controller) {
 			// if the value in the loop is a directory loop through that directory
@@ -75,7 +75,7 @@ class ControllerList {
 					// Load the controller file in memory if it's not load already
 					if(!class_exists($subdircontrollername)) {				
 						$this->CI->load->file($subdircontroller);
-					}					
+					}
 					// Add the controllername to the array with its methods
 					$aMethods = get_class_methods($subdircontrollername);
 					$aUserMethods = array();
